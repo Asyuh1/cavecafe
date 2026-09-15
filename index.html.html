@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kedai Ranting — Pesan di Meja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2A1B12;
+    --paper:#EFE8D8;
+    --card:#FBF7EE;
+    --rust:#A85C2A;
+    --rust-dark:#7E4620;
+    --olive:#5F6E45;
+    --gold:#C99A3B;
+    --line: rgba(42,27,18,0.14);
+    --shadow: 0 1px 0 rgba(42,27,18,0.06);
+    --radius-card: 4px 18px 4px 18px;
+    --maxw: 1180px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{ color:inherit; }
+  button{ font-family:inherit; cursor:pointer; }
+  img,svg{ display:block; max-width:100%; }
+
+  ::selection{ background: var(--gold); color:var(--ink); }
+
+  :focus-visible{
+    outline: 2px solid var(--rust-dark);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    max-width:var(--maxw);
+    margin:0 auto;
+    gap:20px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand-mark{ width:34px; height:34px; flex-shrink:0; }
+  .brand-name{
+    font-size:1.28rem;
+    font-weight:600;
+  }
+  .brand-sub{
+    font-size:0.72rem;
+    color:var(--ink);
+    opacity:0.55;
+    margin-top:-2px;
+  }
+
+  nav.tabs{
+    display:flex;
+    gap:26px;
+    position:relative;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{ display:none; }
+  nav.tabs button{
+    background:none;
+    border:none;
+    padding:6px 0;
+    font-size:0.92rem;
+    color:var(--ink);
+    opacity:0.55;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition: opacity .15s ease, border-color .2s ease;
+  }
+  nav.tabs button.active{
+    opacity:1;
+    border-color:var(--rust);
+    font-weight:600;
+  }
+  nav.tabs button:hover{ opacity:0.85; }
+
+  .cart-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:999px;
+    padding:10px 18px 10px 14px;
+    font-size:0.88rem;
+    font-weight:600;
+    flex-shrink:0;
+    transition: transform .15s ease;
+  }
+  .cart-btn:hover{ transform:translateY(-1px); }
+  .cart-count{
+    background:var(--gold);
+    color:var(--ink);
+    min-width:20px;
+    height:20px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.72rem;
+    font-weight:700;
+    padding:0 5px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 0 56px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:48px;
+    align-items:center;
+  }
+  .eyebrow-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    font-size:0.86rem;
+    color:var(--rust-dark);
+  }
+  .eyebrow-line svg{ width:16px; height:16px; }
+  .hero h1{
+    font-size:clamp(2.3rem, 4.4vw, 3.6rem);
+    line-height:1.08;
+    max-width:12ch;
+  }
+  .hero p.lede{
+    margin-top:20px;
+    max-width:46ch;
+    font-size:1.05rem;
+    opacity:0.78;
+  }
+  .hero-actions{
+    display:flex;
+    gap:14px;
+    margin-top:30px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--rust);
+    color:#fff;
+    border:none;
+    padding:13px 24px;
+    border-radius:4px 14px 4px 14px;
+    font-weight:600;
+    font-size:0.94rem;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .btn-primary:hover{ background:var(--rust-dark); transform:translateY(-1px); }
+  .btn-ghost{
+    background:none;
+    border:1px solid var(--line);
+    padding:13px 22px;
+    border-radius:4px 14px 4px 14px;
+    font-weight:600;
+    font-size:0.94rem;
+    color:var(--ink);
+  }
+  .btn-ghost:hover{ border-color:var(--rust); }
+
+  .hero-art{ position:relative; }
+  .hero-info-card{
+    margin-top:22px;
+    display:flex;
+    gap:22px;
+    font-size:0.82rem;
+  }
+  .hero-info-card div strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:1.3rem;
+    font-weight:500;
+  }
+
+  /* ---------- MENU ---------- */
+  .menu-section{ padding:56px 0 40px; }
+  .menu-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:30px;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .menu-header h2{
+    font-size:1.9rem;
+  }
+  .menu-header p{
+    opacity:0.6;
+    font-size:0.92rem;
+    max-width:38ch;
+  }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+    gap:20px;
+  }
+
+  .item-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-card);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    box-shadow:var(--shadow);
+  }
+  .item-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .item-name{
+    font-family:'Fraunces', serif;
+    font-size:1.12rem;
+    font-weight:500;
+    line-height:1.25;
+  }
+  .item-tag{
+    font-size:0.68rem;
+    color:var(--olive);
+    border:1px solid var(--olive);
+    border-radius:999px;
+    padding:2px 8px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .item-desc{
+    font-size:0.86rem;
+    opacity:0.68;
+    flex-grow:1;
+  }
+  .item-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:6px;
+  }
+  .item-price{
+    font-weight:600;
+    font-size:0.98rem;
+    color:var(--rust-dark);
+  }
+
+  .stepper{
+    display:flex;
+    align-items:center;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .stepper button{
+    background:none;
+    border:none;
+    width:30px;
+    height:30px;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .stepper button:hover{ background:rgba(42,27,18,0.06); }
+  .stepper .qty{
+    min-width:22px;
+    text-align:center;
+    font-weight:600;
+    font-size:0.86rem;
+  }
+  .add-btn{
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:999px;
+    padding:8px 16px;
+    font-size:0.82rem;
+    font-weight:600;
+  }
+  .add-btn:hover{ background:var(--rust-dark); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0 32px;
+    margin-top:40px;
+  }
+  .footer-inner{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:24px;
+    font-size:0.86rem;
+  }
+  .footer-inner .col strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:1rem;
+    margin-bottom:6px;
+    font-weight:500;
+  }
+  .footer-inner .col{ opacity:0.75; }
+
+  /* ---------- CART DRAWER ---------- */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(42,27,18,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:50;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed;
+    top:0; right:0;
+    height:100%;
+    width:min(420px, 92vw);
+    background:var(--paper);
+    z-index:60;
+    transform:translateX(100%);
+    transition:transform .3s ease;
+    display:flex;
+    flex-direction:column;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.15);
+  }
+  .drawer.open{ transform:translateX(0); }
+
+  .drawer-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{ font-size:1.25rem; }
+  .close-btn{
+    background:none;border:none;
+    width:32px;height:32px;
+    border-radius:999px;
+    font-size:1.1rem;
+  }
+  .close-btn:hover{ background:rgba(42,27,18,0.08); }
+
+  .drawer-body{
+    flex-grow:1;
+    overflow-y:auto;
+    padding:18px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .empty-cart{
+    margin-top:40px;
+    text-align:center;
+    opacity:0.6;
+    font-size:0.9rem;
+  }
+  .cart-line{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .cart-line-name{ font-weight:600; font-size:0.92rem; }
+  .cart-line-price{ font-size:0.8rem; opacity:0.6; margin-top:2px; }
+  .cart-line-right{
+    margin-left:auto;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+  .remove-link{
+    background:none;border:none;
+    font-size:0.74rem;
+    color:var(--rust-dark);
+    text-decoration:underline;
+    padding:0;
+  }
+
+  .field-group{ margin-top:6px; }
+  .field-group label{
+    display:block;
+    font-size:0.78rem;
+    opacity:0.65;
+    margin-bottom:6px;
+  }
+  .order-type{
+    display:flex;
+    gap:8px;
+  }
+  .order-type button{
+    flex:1;
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:9px;
+    border-radius:8px;
+    font-size:0.84rem;
+    font-weight:600;
+  }
+  .order-type button.active{
+    border-color:var(--rust);
+    color:var(--rust-dark);
+    background:#fff;
+  }
+  input[type=text], textarea{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:8px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:0.88rem;
+    color:var(--ink);
+    resize:vertical;
+  }
+  input[type=text]:focus, textarea:focus{ border-color:var(--rust); }
+
+  .drawer-foot{
+    border-top:1px solid var(--line);
+    padding:18px 22px 22px;
+  }
+  .sum-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.9rem;
+    margin-bottom:6px;
+    opacity:0.75;
+  }
+  .sum-row.total{
+    font-weight:700;
+    font-size:1.05rem;
+    opacity:1;
+    margin-top:8px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .checkout-btn{
+    width:100%;
+    margin-top:14px;
+    background:var(--rust);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:4px 14px 4px 14px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .checkout-btn:hover{ background:var(--rust-dark); }
+  .checkout-btn:disabled{
+    background:#c9c1af;
+    cursor:not-allowed;
+  }
+
+  /* ---------- CONFIRM MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(42,27,18,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:80;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease;
+    padding:20px;
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal-card{
+    background:var(--card);
+    border-radius:4px 22px 4px 22px;
+    max-width:380px;
+    width:100%;
+    padding:32px 28px;
+    text-align:center;
+    transform:translateY(14px);
+    transition:transform .25s ease;
+  }
+  .modal-overlay.open .modal-card{ transform:translateY(0); }
+  .modal-card svg{ margin:0 auto 14px; width:46px; height:46px; }
+  .modal-card h3{ font-size:1.4rem; margin-bottom:8px; }
+  .modal-card p{ opacity:0.7; font-size:0.9rem; margin-bottom:4px; }
+  .order-code{
+    font-family:'Fraunces', serif;
+    font-size:1.6rem;
+    color:var(--rust-dark);
+    margin:14px 0;
+  }
+  .modal-card .btn-primary{ width:100%; margin-top:14px; }
+
+  @media (max-width: 860px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero-art{ order:-1; max-width:240px; margin:0 auto; }
+    .header-inner{ flex-wrap:wrap; }
+    nav.tabs{ order:3; width:100%; border-top:1px solid var(--line); padding-top:10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <path d="M8 16h20a4 4 0 0 1 4 4c0 5-4 8-8 8" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8 16v10a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M13 12c-1-2 1-3 0-5M19 12c-1-2 1-3 0-5" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">Kedai Ranting</div>
+        <div class="brand-sub">pesan langsung dari meja</div>
+      </div>
+    </div>
+
+    <nav class="tabs" id="tabs"></nav>
+
+    <button class="cart-btn" id="openCart">
+      <span>Keranjang</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-line">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--rust-dark)" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="var(--rust-dark)" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Buka 07.00 – 22.00 setiap hari</span>
+      </div>
+      <h1>Duduk sebentar, kopinya biar kami yang urus.</h1>
+      <p class="lede">Pilih menu, atur jumlahnya, lalu kirim pesanan — pesanan langsung masuk ke dapur kami tanpa perlu antre di kasir.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-primary">Lihat menu</a>
+        <button class="btn-ghost" id="heroCartBtn">Buka keranjang</button>
+      </div>
+      <div class="hero-info-card">
+        <div><strong>4.8</strong>nilai pelanggan</div>
+        <div><strong>12+</strong>menu andalan</div>
+        <div><strong>~10 mnt</strong>rata-rata siap</div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <svg viewBox="0 0 320 320" fill="none">
+        <ellipse cx="160" cy="270" rx="110" ry="14" fill="rgba(42,27,18,0.06)"/>
+        <path d="M75 120h150l-12 110a30 30 0 0 1-30 27H117a30 30 0 0 1-30-27L75 120Z" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/>
+        <path d="M225 135h14a24 24 0 0 1 0 48h-18" stroke="var(--ink)" stroke-width="2" fill="none"/>
+        <path d="M95 120c4-14-6-20-2-34M140 120c4-14-6-20-2-34M185 120c4-14-6-20-2-34" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M92 150h136" stroke="var(--rust)" stroke-width="2" opacity="0.35"/>
+        <circle cx="70" cy="230" r="10" fill="var(--rust)" opacity="0.85"/>
+        <circle cx="255" cy="250" r="7" fill="var(--gold)" opacity="0.8"/>
+        <circle cx="260" cy="90" r="5" fill="var(--olive)" opacity="0.7"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="wrap">
+    <div class="menu-header">
+      <div>
+        <h2>Menu hari ini</h2>
+        <p>Semua diseduh dan dimasak setelah pesanan masuk, jadi rasanya selalu segar.</p>
+      </div>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="col">
+      <strong>Kedai Ranting</strong>
+      Jl. Sei Batang Serangan No. 14, Medan
+    </div>
+    <div class="col">
+      <strong>Jam buka</strong>
+      Setiap hari, 07.00 – 22.00
+    </div>
+    <div class="col">
+      <strong>Kontak</strong>
+      0812-6600-1123 · @kedairanting
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="drawer" id="drawer" aria-label="Keranjang pesanan">
+  <div class="drawer-head">
+    <h3>Keranjangmu</h3>
+    <button class="close-btn" id="closeCart" aria-label="Tutup keranjang">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody">
+    <p class="empty-cart">Keranjang masih kosong. Yuk pilih menu favoritmu.</p>
+  </div>
+  <div class="drawer-foot">
+    <div class="field-group">
+      <label>Cara pesan</label>
+      <div class="order-type">
+        <button type="button" class="active" data-type="dine">Makan di tempat</button>
+        <button type="button" data-type="takeaway">Bawa pulang</button>
+      </div>
+    </div>
+    <div class="field-group" id="tableField">
+      <label for="tableNo">Nomor meja</label>
+      <input type="text" id="tableNo" placeholder="contoh: 7">
+    </div>
+    <div class="field-group">
+      <label for="notes">Catatan (opsional)</label>
+      <textarea id="notes" rows="2" placeholder="contoh: kopi susu tanpa gula"></textarea>
+    </div>
+    <div class="sum-row"><span>Subtotal</span><span id="subtotal">Rp0</span></div>
+    <div class="sum-row"><span>Pajak layanan (5%)</span><span id="tax">Rp0</span></div>
+    <div class="sum-row total"><span>Total</span><span id="total">Rp0</span></div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>Pesan sekarang</button>
+  </div>
+</aside>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--olive)" stroke-width="1.6"/><path d="M7.5 12.5l3 3 6-6.5" stroke="var(--olive)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h3>Pesanan diterima</h3>
+    <p>Nomor pesananmu</p>
+    <div class="order-code" id="orderCode">#0000</div>
+    <p id="orderSummaryText">Sedang disiapkan, ya.</p>
+    <button class="btn-primary" id="closeModal">Selesai</button>
+  </div>
+</div>
+
+<script>
+  const MENU = [
+    { id:1, cat:'kopi-susu', name:'Kopi Susu Gula Aren', desc:'Espresso, susu segar, gula aren asli', price:22000, tag:'favorit' },
+    { id:2, cat:'kopi-susu', name:'Kopi Susu Vanila', desc:'Espresso, susu, sirup vanila rumahan', price:24000 },
+    { id:3, cat:'kopi-susu', name:'Cappuccino', desc:'Espresso dengan busa susu tebal', price:27000 },
+    { id:4, cat:'kopi-susu', name:'Kopi Susu Kelapa', desc:'Espresso, santan kelapa, gula aren', price:25000, tag:'khas' },
+    { id:5, cat:'kopi-hitam', name:'Americano', desc:'Espresso dengan air panas, ringan', price:20000 },
+    { id:6, cat:'kopi-hitam', name:'V60 Manual Brew', desc:'Diseduh manual, biji pilihan minggu ini', price:28000 },
+    { id:7, cat:'kopi-hitam', name:'Espresso', desc:'Dua shot, pekat dan singkat', price:18000 },
+    { id:8, cat:'non-kopi', name:'Matcha Latte', desc:'Matcha grade ceremonial, susu segar', price:26000 },
+    { id:9, cat:'non-kopi', name:'Cokelat Susu', desc:'Cokelat leleh, susu hangat atau dingin', price:23000 },
+    { id:10, cat:'non-kopi', name:'Teh Tarik', desc:'Teh susu ditarik khas warung', price:18000 },
+    { id:11, cat:'camilan', name:'Pisang Goreng Keju', desc:'Pisang kepok, taburan keju parut', price:15000 },
+    { id:12, cat:'camilan', name:'Roti Bakar Srikaya', desc:'Roti tebal, selai srikaya, mentega', price:17000 },
+    { id:13, cat:'camilan', name:'Kentang Goreng', desc:'Renyah luar, lembut dalam, saus sambal', price:16000 },
+    { id:14, cat:'makanan', name:'Nasi Goreng Kedai', desc:'Nasi goreng bumbu rempah, telur, ayam', price:28000, tag:'favorit' },
+    { id:15, cat:'makanan', name:'Mie Aceh Goreng', desc:'Mie tebal pedas, daging sapi, udang', price:30000, tag:'pedas' },
+    { id:16, cat:'makanan', name:'Sandwich Ayam Suwir', desc:'Ayam suwir bumbu, sayur segar', price:26000 },
+  ];
+
+  const CATEGORIES = [
+    { key:'semua', label:'Semua' },
+    { key:'kopi-susu', label:'Kopi Susu' },
+    { key:'kopi-hitam', label:'Kopi Hitam' },
+    { key:'non-kopi', label:'Non-Kopi' },
+    { key:'camilan', label:'Camilan' },
+    { key:'makanan', label:'Makanan Berat' },
+  ];
+
+  let activeCat = 'semua';
+  let cart = {}; // id -> qty
+  let orderType = 'dine';
+
+  const tabsEl = document.getElementById('tabs');
+  const gridEl = document.getElementById('menuGrid');
+
+  function rupiah(n){
+    return 'Rp' + n.toLocaleString('id-ID');
+  }
+
+  function renderTabs(){
+    tabsEl.innerHTML = CATEGORIES.map(c =>
+      `<button data-cat="${c.key}" class="${c.key===activeCat?'active':''}">${c.label}</button>`
+    ).join('');
+    tabsEl.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        activeCat = btn.dataset.cat;
+        renderTabs();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid(){
+    const items = MENU.filter(m => activeCat==='semua' || m.cat===activeCat);
+    gridEl.innerHTML = items.map(item => `
+      <div class="item-card">
+        <div class="item-top">
+          <div class="item-name">${item.name}</div>
+          ${item.tag ? `<span class="item-tag">${item.tag}</span>` : ''}
+        </div>
+        <div class="item-desc">${item.desc}</div>
+        <div class="item-bottom">
+          <div class="item-price">${rupiah(item.price)}</div>
+          ${cart[item.id]
+            ? `<div class="stepper">
+                 <button data-action="dec" data-id="${item.id}">−</button>
+                 <span class="qty">${cart[item.id]}</span>
+                 <button data-action="inc" data-id="${item.id}">+</button>
+               </div>`
+            : `<button class="add-btn" data-action="inc" data-id="${item.id}">Tambah</button>`
+          }
+        </div>
+      </div>
+    `).join('');
+
+    gridEl.querySelectorAll('[data-action]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = Number(btn.dataset.id);
+        const action = btn.dataset.action;
+        if(action==='inc'){ cart[id] = (cart[id]||0) + 1; }
+        if(action==='dec'){
+          cart[id] = (cart[id]||0) - 1;
+          if(cart[id]<=0) delete cart[id];
+        }
+        renderGrid();
+        renderCart();
+      });
+    });
+  }
+
+  // ---------- CART ----------
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+  const cartBody = document.getElementById('cartBody');
+  const cartCount = document.getElementById('cartCount');
+  const subtotalEl = document.getElementById('subtotal');
+  const taxEl = document.getElementById('tax');
+  const totalEl = document.getElementById('total');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const tableField = document.getElementById('tableField');
+
+  function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+  function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+
+  document.getElementById('openCart').addEventListener('click', openDrawer);
+  document.getElementById('heroCartBtn').addEventListener('click', openDrawer);
+  document.getElementById('closeCart').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  document.querySelectorAll('.order-type button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.order-type button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      orderType = btn.dataset.type;
+      tableField.style.display = orderType==='dine' ? 'block' : 'none';
+    });
+  });
+
+  function renderCart(){
+    const ids = Object.keys(cart);
+    const totalQty = ids.reduce((s,id)=>s+cart[id],0);
+    cartCount.textContent = totalQty;
+
+    if(ids.length===0){
+      cartBody.innerHTML = `<p class="empty-cart">Keranjang masih kosong. Yuk pilih menu favoritmu.</p>`;
+      checkoutBtn.disabled = true;
+    } else {
+      cartBody.innerHTML = ids.map(id=>{
+        const item = MENU.find(m=>m.id===Number(id));
+        return `
+          <div class="cart-line">
+            <div>
+              <div class="cart-line-name">${item.name}</div>
+              <div class="cart-line-price">${rupiah(item.price)} × ${cart[id]}</div>
+            </div>
+            <div class="cart-line-right">
+              <div class="stepper">
+                <button data-action="dec" data-id="${id}">−</button>
+                <span class="qty">${cart[id]}</span>
+                <button data-action="inc" data-id="${id}">+</button>
+              </div>
+              <button class="remove-link" data-remove="${id}">hapus</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      checkoutBtn.disabled = false;
+
+      cartBody.querySelectorAll('[data-action]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = Number(btn.dataset.id);
+          if(btn.dataset.action==='inc') cart[id]++;
+          if(btn.dataset.action==='dec'){ cart[id]--; if(cart[id]<=0) delete cart[id]; }
+          renderCart(); renderGrid();
+        });
+      });
+      cartBody.querySelectorAll('[data-remove]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          delete cart[btn.dataset.remove];
+          renderCart(); renderGrid();
+        });
+      });
+    }
+
+    const subtotal = ids.reduce((s,id)=> s + MENU.find(m=>m.id===Number(id)).price * cart[id], 0);
+    const tax = Math.round(subtotal * 0.05);
+    subtotalEl.textContent = rupiah(subtotal);
+    taxEl.textContent = rupiah(tax);
+    totalEl.textContent = rupiah(subtotal+tax);
+  }
+
+  // ---------- CHECKOUT ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  const orderCode = document.getElementById('orderCode');
+  const orderSummaryText = document.getElementById('orderSummaryText');
+
+  checkoutBtn.addEventListener('click', ()=>{
+    const code = '#' + Math.floor(1000 + Math.random()*9000);
+    orderCode.textContent = code;
+    const table = document.getElementById('tableNo').value.trim();
+    if(orderType==='dine' && table){
+      orderSummaryText.textContent = `Diantar ke meja ${table}, siap dalam ±10 menit.`;
+    } else if(orderType==='dine'){
+      orderSummaryText.textContent = `Makan di tempat, siap dalam ±10 menit.`;
+    } else {
+      orderSummaryText.textContent = `Bisa diambil di kasir dalam ±10 menit.`;
+    }
+    modalOverlay.classList.add('open');
+  });
+
+  document.getElementById('closeModal').addEventListener('click', ()=>{
+    modalOverlay.classList.remove('open');
+    cart = {};
+    document.getElementById('tableNo').value='';
+    document.getElementById('notes').value='';
+    renderCart();
+    renderGrid();
+    closeDrawer();
+  });
+
+  renderTabs();
+  renderGrid();
+  renderCart();
+</script>
+
+</body>
+</html>
